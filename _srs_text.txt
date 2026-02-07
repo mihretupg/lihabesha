@@ -1,0 +1,116 @@
+Software Requirements Specification (SRS)
+1. Introduction
+1.1 Purpose
+This document defines the Software Requirements Specification (SRS) for the Habesha Community Platform, a web-based system designed to help the Habesha (Ethiopian & Eritrean) diaspora share information about housing, jobs, travel, and community activities. The SRS serves as a reference for developers, designers, stakeholders, and future contributors.
+1.2 Scope
+The platform will provide a trusted, community-focused space where users can:
+Find and post shared rooms and housing opportunities
+Share job opportunities and services
+Post travel notices (e.g., going home, luggage sharing)
+Communicate and stay connected within the community
+The system will be built using:
+Frontend: React + Tailwind CSS
+Backend: Python (FastAPI or Django REST Framework)
+Database: PostgreSQL (recommended)
+Authentication: JWT-based authentication
+1.3 Definitions & Acronyms
+Habesha: Ethiopian and Eritrean communities
+SRS: Software Requirements Specification
+JWT: JSON Web Token
+UI/UX: User Interface / User Experience
+2. Overall Description
+2.1 Product Perspective
+The platform is a standalone web application accessible via browsers (desktop and mobile). It may later be extended into a mobile app using the same backend APIs.
+2.2 User Classes
+<w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblCellSpacing w:w="15" w:type="dxa"/><w:tblCellMar><w:top w:w="15" w:type="dxa"/><w:left w:w="15" w:type="dxa"/><w:bottom w:w="15" w:type="dxa"/><w:right w:w="15" w:type="dxa"/></w:tblCellMar><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid><w:gridCol w:w="1615"/><w:gridCol w:w="4895"/></w:tblGrid><w:tr w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidTr="00447FAA"><w:trPr><w:tblHeader/><w:tblCellSpacing w:w="15" w:type="dxa"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:lastRenderedPageBreak/><w:t>User Type
+<w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Description
+<w:trPr><w:tblCellSpacing w:w="15" w:type="dxa"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Guest
+<w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Can browse public listings without posting
+<w:trPr><w:tblCellSpacing w:w="15" w:type="dxa"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Registered User
+<w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Can post, comment, message, and manage listings
+<w:trPr><w:tblCellSpacing w:w="15" w:type="dxa"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Moderator
+<w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Approves/flags posts, manages reported content
+<w:trPr><w:tblCellSpacing w:w="15" w:type="dxa"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Admin
+<w:tcPr><w:tcW w:w="0" w:type="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr><w:p w:rsidR="00447FAA" w:rsidRPr="00447FAA" w:rsidRDefault="00447FAA" w:rsidP="00447FAA"><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r w:rsidRPr="00447FAA"><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>Manages users, categories, system settings
+2.3 Operating Environment
+Modern web browsers (Chrome, Edge, Firefox, Safari)
+Responsive design for mobile and desktop
+Hosted on cloud infrastructure (AWS, GCP, or similar)
+2.4 Design Constraints
+Must support low-bandwidth usage
+Simple UI for non-technical users
+Secure handling of user data
+3. Functional Requirements
+3.1 Authentication & User Management
+Users shall be able to register using email and phone number
+Users shall be able to log in and log out securely
+Users shall manage their profile (name, city, language, contact info)
+System shall support JWT-based authentication
+3.2 Housing & Room Listings
+Users shall create, edit, and delete housing posts
+Listings shall include location, price, availability, and preferences
+Users shall filter listings by city, price, and room type
+Users shall contact listing owners via in-app messaging or phone
+3.3 Job & Service Listings
+Users shall post job opportunities and services
+Jobs shall be categorized (hospitality, driving, admin, etc.)
+Users shall apply or contact job posters
+3.4 Travel & Notice Board
+Users shall post travel notices (going home, returning, luggage space)
+Posts shall include travel date, route, and contact method
+Users shall comment or message on travel posts
+3.5 Community Interaction
+Users shall comment on posts
+Users shall send private messages
+Users shall report inappropriate content
+3.6 Moderation & Administration
+Moderators shall approve or remove reported posts
+Admins shall manage categories and users
+System shall log moderation actions
+4. Non-Functional Requirements
+4.1 Performance
+Pages shall load within 3 seconds on average connections
+Backend shall handle concurrent users efficiently
+4.2 Security
+Passwords shall be hashed
+APIs shall be protected via authentication
+Role-based access control shall be enforced
+4.3 Usability
+UI shall be simple and intuitive
+Platform shall support multilingual UI (future enhancement)
+4.4 Scalability
+System shall support adding new cities and countries
+Architecture shall allow mobile app integration later
+4.5 Reliability
+System uptime target: 99%
+Daily database backups
+5. System Architecture
+5.1 High-Level Architecture
+Frontend: React, Tailwind CSS
+Backend API: Python (FastAPI / Django REST)
+Database: PostgreSQL
+Auth: JWT
+Deployment: Docker + Cloud hosting
+5.2 Component Diagram (Textual)
+User → React UI → REST API → Database
+6. Data Requirements (High Level)
+6.1 Core Entities
+User
+Post (Housing, Job, Travel)
+Message
+Comment
+Report
+7. Future Enhancements
+Mobile app (React Native)
+Verification badges for trusted users
+Push notifications
+In-app payments
+Location-based recommendations
+8. Assumptions & Dependencies
+Users have internet access
+Community moderation model is accepted
+Legal compliance depends on hosting country
+9. Appendix
+GitHub Repository: (to be added)
+Wireframes: (future)
+API Documentation: (future)

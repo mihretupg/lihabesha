@@ -46,6 +46,22 @@ def seed():
                 "role": "user",
                 "password": "UserPass123!",
             },
+            {
+                "email": "user3@lihabesha.local",
+                "name": "Saba Lemma",
+                "city": "Dallas, TX",
+                "language": "am",
+                "role": "user",
+                "password": "UserPass123!",
+            },
+            {
+                "email": "user4@lihabesha.local",
+                "name": "Hagos Girmay",
+                "city": "Minneapolis, MN",
+                "language": "ti",
+                "role": "user",
+                "password": "UserPass123!",
+            },
         ]
 
         users = {}
@@ -87,6 +103,26 @@ def seed():
                 "owner_email": "user1@lihabesha.local",
             },
             {
+                "title": "Basement studio in Silver Spring",
+                "description": "Cozy studio, separate entrance. Looking for long-term tenant.",
+                "post_type": "housing",
+                "city": "Silver Spring, MD",
+                "price": 1100,
+                "availability_date": now + timedelta(days=7),
+                "room_type": "Studio",
+                "owner_email": "user3@lihabesha.local",
+            },
+            {
+                "title": "Shared room in Minneapolis",
+                "description": "Shared room in 2BR. Close to transit.",
+                "post_type": "housing",
+                "city": "Minneapolis, MN",
+                "price": 650,
+                "availability_date": now + timedelta(days=21),
+                "room_type": "Shared",
+                "owner_email": "user4@lihabesha.local",
+            },
+            {
                 "title": "Hiring: Cafe barista",
                 "description": "Part-time barista needed. Weekend shifts. Experience preferred.",
                 "post_type": "job",
@@ -94,6 +130,24 @@ def seed():
                 "price": None,
                 "job_category": "hospitality",
                 "owner_email": "user2@lihabesha.local",
+            },
+            {
+                "title": "Dispatcher for trucking company",
+                "description": "Full-time dispatcher role. Prior experience a plus.",
+                "post_type": "job",
+                "city": "Dallas, TX",
+                "price": None,
+                "job_category": "admin",
+                "owner_email": "user3@lihabesha.local",
+            },
+            {
+                "title": "Looking for nanny (weekends)",
+                "description": "Weekend nanny needed. Flexible hours.",
+                "post_type": "job",
+                "city": "Washington, DC",
+                "price": None,
+                "job_category": "services",
+                "owner_email": "user1@lihabesha.local",
             },
             {
                 "title": "Traveling to Addis in March",
@@ -104,6 +158,26 @@ def seed():
                 "travel_date": now + timedelta(days=30),
                 "route": "IAD ? ADD",
                 "owner_email": "user1@lihabesha.local",
+            },
+            {
+                "title": "Returning from Addis to JFK",
+                "description": "Returning to NYC. Can bring documents or small items.",
+                "post_type": "travel",
+                "city": "New York, NY",
+                "price": None,
+                "travel_date": now + timedelta(days=45),
+                "route": "ADD ? JFK",
+                "owner_email": "user2@lihabesha.local",
+            },
+            {
+                "title": "Boston to Asmara trip",
+                "description": "Trip via Frankfurt. Limited luggage space.",
+                "post_type": "travel",
+                "city": "Boston, MA",
+                "price": None,
+                "travel_date": now + timedelta(days=60),
+                "route": "BOS ? FRA ? ASM",
+                "owner_email": "user4@lihabesha.local",
             },
         ]
 
@@ -133,38 +207,59 @@ def seed():
         db.commit()
 
         # Comments
-        if created_posts:
-            first_post = created_posts[0]
-            comment_exists = db.query(Comment).filter(Comment.post_id == first_post.id).first()
-            if not comment_exists:
-                comment = Comment(
-                    post_id=first_post.id,
-                    user_id=users["user2@lihabesha.local"].id,
-                    body="Is this still available? I can move in next month.",
-                )
-                db.add(comment)
-                db.commit()
+        comment_templates = [
+            "Is this still available?",
+            "What utilities are included?",
+            "Can you share more photos?",
+            "Is parking available?",
+        ]
+        for idx, post in enumerate(created_posts[:6]):
+            existing = db.query(Comment).filter(Comment.post_id == post.id).first()
+            if existing:
+                continue
+            commenter = users["user2@lihabesha.local"] if idx % 2 == 0 else users["user3@lihabesha.local"]
+            comment = Comment(
+                post_id=post.id,
+                user_id=commenter.id,
+                body=comment_templates[idx % len(comment_templates)],
+            )
+            db.add(comment)
+        db.commit()
 
         # Messages
-        msg_exists = db.query(Message).filter(Message.body.ilike("%Hello%")) .first()
-        if not msg_exists:
-            message = Message(
-                from_user_id=users["user1@lihabesha.local"].id,
-                to_user_id=users["user2@lihabesha.local"].id,
-                body="Hello! Let me know if you're interested in the room.",
+        message_pairs = [
+            ("user1@lihabesha.local", "user2@lihabesha.local", "Hello! Let me know if you're interested."),
+            ("user3@lihabesha.local", "user4@lihabesha.local", "Hi, are you still looking for a roommate?"),
+            ("user2@lihabesha.local", "user1@lihabesha.local", "Thanks! Can we schedule a call?"),
+        ]
+        for from_email, to_email, body in message_pairs:
+            exists = db.query(Message).filter(Message.body == body).first()
+            if exists:
+                continue
+            msg = Message(
+                from_user_id=users[from_email].id,
+                to_user_id=users[to_email].id,
+                body=body,
             )
-            db.add(message)
-            db.commit()
+            db.add(msg)
+        db.commit()
 
         # Reports
-        report_exists = db.query(Report).filter(Report.reason.ilike("%spam%")) .first()
-        if not report_exists and created_posts:
-            report = Report(
-                post_id=created_posts[-1].id,
-                reporter_id=users["moderator@lihabesha.local"].id,
-                reason="Looks like possible spam, needs review.",
-            )
-            db.add(report)
+        if created_posts:
+            report_pairs = [
+                (created_posts[0], "Possible duplicate listing."),
+                (created_posts[-1], "Looks like spam, needs review."),
+            ]
+            for post, reason in report_pairs:
+                exists = db.query(Report).filter(Report.post_id == post.id, Report.reason == reason).first()
+                if exists:
+                    continue
+                report = Report(
+                    post_id=post.id,
+                    reporter_id=users["moderator@lihabesha.local"].id,
+                    reason=reason,
+                )
+                db.add(report)
             db.commit()
 
         print("seeded")

@@ -3,17 +3,36 @@
 Habesha Community Platform for housing, jobs, travel notices, and community interaction.
 
 ## Tech Stack
-- Frontend: React + Tailwind CSS
+- Frontend: Vite + React + Tailwind CSS
 - Backend: Python (FastAPI)
 - Database: PostgreSQL
 - Auth: JWT
 
 ## Repo Structure
 - `backend/` FastAPI API, business logic, DB models
-- `frontend/` React app (to be scaffolded)
+- `frontend/` Vite + React app
 - `docs/` Project docs, SRS notes
 
+## Backend (FastAPI)
+- `backend/app/main.py`
+
+Run locally:
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+## Frontend (Vite + React + Tailwind)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
 ## Next Steps
-- Confirm backend framework (FastAPI vs Django REST Framework)
-- Confirm frontend scaffold preference (Vite vs Next.js)
-- Build core auth, post types, messaging, moderation
+- Define DB models for User, Post, Message, Comment, Report
+- Build auth (JWT), listing CRUD, filters, and messaging
+- Add moderation endpoints and basic admin tooling

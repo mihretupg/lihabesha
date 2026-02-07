@@ -4,10 +4,14 @@ import PostForm from './components/PostForm'
 import Modal from './components/Modal'
 import Auth from './pages/Auth'
 import { useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { useAuth } from './auth/AuthProvider'
+import { createHousing } from './api'
 
 function App() {
   const [openPost, setOpenPost] = useState(false)
+  const { token } = useAuth() || {}
+  const navigate = useNavigate()
   return (
     <Layout>
       <Routes>
@@ -35,8 +39,11 @@ function App() {
 
               <div className="mt-8 flex items-center justify-between">
                 <h2 className="text-xl font-semibold">Explore</h2>
-                <div className="flex items-center gap-2">
-                  <button onClick={() => setOpenPost(true)} className="rounded-md bg-rose-500 px-3 py-1 text-sm font-medium text-white hover:bg-rose-600">Post listing</button>
+                  <div className="flex items-center gap-2">
+                  <button onClick={() => {
+                    if (token) setOpenPost(true)
+                    else navigate('/auth')
+                  }} className="rounded-md bg-rose-500 px-3 py-1 text-sm font-medium text-white hover:bg-rose-600">Post listing</button>
                 </div>
               </div>
 
@@ -53,10 +60,8 @@ function App() {
         <h3 className="text-lg font-semibold">Create Listing</h3>
         <div className="mt-4">
           <PostForm onSubmit={(data) => {
-            // try to create via API; if unauthenticated, show console message
-            import('./api').then(({ createHousing }) => {
-              createHousing({ title: data.title, city: data.location, price: data.price }).then(r => console.log('created', r)).catch(e => console.error(e))
-            })
+            // create via API using token from context
+            createHousing({ title: data.title, city: data.location, price: data.price }, token).then(r => console.log('created', r)).catch(e => console.error(e))
             setOpenPost(false)
           }} />
         </div>

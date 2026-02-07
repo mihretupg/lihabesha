@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../auth/AuthProvider'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -21,6 +23,8 @@ export default function Header() {
     }
   }, [dark])
 
+  const { token, logout } = useAuth() || {}
+
   return (
     <header className="bg-white dark:bg-slate-800 border-b dark:border-slate-700">
       <div className="container-max flex items-center justify-between py-4" role="navigation" aria-label="Main navigation">
@@ -30,11 +34,15 @@ export default function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6 text-sm text-slate-700 dark:text-slate-200" aria-label="Primary">
-          <a className="hover:text-slate-900 dark:hover:text-slate-100" href="#housing">Housing</a>
+          <Link className="hover:text-slate-900 dark:hover:text-slate-100" to="/listings">Housing</Link>
           <a className="hover:text-slate-900 dark:hover:text-slate-100" href="#jobs">Jobs</a>
           <a className="hover:text-slate-900 dark:hover:text-slate-100" href="#travel">Travel</a>
           <a className="hover:text-slate-900 dark:hover:text-slate-100" href="#community">Community</a>
-          <button className="ml-4 rounded-md bg-slate-900 px-3 py-1 text-sm font-medium text-white hover:bg-slate-800">Sign up</button>
+          {!token ? (
+            <Link to="/auth" className="ml-4 rounded-md bg-slate-900 px-3 py-1 text-sm font-medium text-white hover:bg-slate-800">Sign up</Link>
+          ) : (
+            <button onClick={() => logout()} className="ml-4 rounded-md border border-slate-300 px-3 py-1 text-sm font-medium text-slate-900 hover:bg-slate-100">Sign out</button>
+          )}
         </nav>
 
         <div className="flex items-center gap-2">

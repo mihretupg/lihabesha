@@ -16,7 +16,7 @@ Habesha Community Platform for housing, jobs, travel notices, and community inte
 ## Backend (FastAPI)
 - `backend/app/main.py`
 
-Run locally:
+Set DATABASE_URL (see ackend/.env.example)\n\nRun locally:
 ```bash
 cd backend
 python -m venv .venv

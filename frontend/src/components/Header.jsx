@@ -23,13 +23,13 @@ export default function Header() {
 
   return (
     <header className="bg-white dark:bg-slate-800 border-b dark:border-slate-700">
-      <div className="container-max flex items-center justify-between py-4">
+      <div className="container-max flex items-center justify-between py-4" role="navigation" aria-label="Main navigation">
         <div className="flex items-center gap-3">
           <div className="rounded-md bg-gradient-to-r from-rose-500 to-amber-400 p-2 text-white font-bold">L</div>
           <div className="text-lg font-semibold dark:text-slate-100">Lihabesha</div>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm text-slate-700 dark:text-slate-200">
+        <nav className="hidden md:flex items-center gap-6 text-sm text-slate-700 dark:text-slate-200" aria-label="Primary">
           <a className="hover:text-slate-900 dark:hover:text-slate-100" href="#housing">Housing</a>
           <a className="hover:text-slate-900 dark:hover:text-slate-100" href="#jobs">Jobs</a>
           <a className="hover:text-slate-900 dark:hover:text-slate-100" href="#travel">Travel</a>

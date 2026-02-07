@@ -1,9 +1,10 @@
+import uuid
 from pydantic import BaseModel
 
 class CommentBase(BaseModel):
-    post_id: str
+    post_id: uuid.UUID
     body: str
 
 class CommentPublic(CommentBase):
-    id: str
-    user_id: str
+    id: uuid.UUID
+    user_id: uuid.UUID

@@ -1,9 +1,10 @@
+import uuid
 from pydantic import BaseModel
 
 class ReportBase(BaseModel):
-    post_id: str
+    post_id: uuid.UUID
     reason: str
 
 class ReportPublic(ReportBase):
-    id: str
-    reporter_id: str
+    id: uuid.UUID
+    reporter_id: uuid.UUID

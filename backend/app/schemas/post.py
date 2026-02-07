@@ -1,4 +1,5 @@
 from enum import Enum
+import uuid
 from pydantic import BaseModel
 from datetime import date
 
@@ -25,5 +26,5 @@ class TravelPost(PostBase):
     route: str | None = None
 
 class PostPublic(PostBase):
-    id: str
+    id: uuid.UUID
     post_type: PostType

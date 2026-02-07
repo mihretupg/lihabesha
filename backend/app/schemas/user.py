@@ -1,4 +1,5 @@
 from enum import Enum
+import uuid
 from pydantic import BaseModel, EmailStr
 
 class UserRole(str, Enum):
@@ -18,5 +19,5 @@ class UserCreate(UserBase):
     password: str
 
 class UserPublic(UserBase):
-    id: str
+    id: uuid.UUID
     role: UserRole = UserRole.user

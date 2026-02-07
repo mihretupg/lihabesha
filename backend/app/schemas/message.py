@@ -8,3 +8,7 @@ class MessageBase(BaseModel):
 class MessagePublic(MessageBase):
     id: uuid.UUID
     from_user_id: uuid.UUID
+
+
+class MessageCreate(MessageBase):
+    from_user_id: uuid.UUID

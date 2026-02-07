@@ -8,3 +8,7 @@ class CommentBase(BaseModel):
 class CommentPublic(CommentBase):
     id: uuid.UUID
     user_id: uuid.UUID
+
+
+class CommentCreate(CommentBase):
+    user_id: uuid.UUID

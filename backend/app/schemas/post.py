@@ -18,10 +18,34 @@ class HousingPost(PostBase):
     availability_date: date | None = None
     room_type: str | None = None
 
+
+class HousingPostCreate(HousingPost):
+    owner_id: uuid.UUID
+
 class JobPost(PostBase):
     category: str | None = None
 
+
+class JobPostCreate(JobPost):
+    owner_id: uuid.UUID
+
 class TravelPost(PostBase):
+    travel_date: date | None = None
+    route: str | None = None
+
+
+class TravelPostCreate(TravelPost):
+    owner_id: uuid.UUID
+
+
+class PostUpdate(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    city: str | None = None
+    price: float | None = None
+    availability_date: date | None = None
+    room_type: str | None = None
+    category: str | None = None
     travel_date: date | None = None
     route: str | None = None
 

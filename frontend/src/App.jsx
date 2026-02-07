@@ -1,6 +1,12 @@
 import Layout from './components/Layout'
+import Listings from './components/Listings'
+import PostForm from './components/PostForm'
+import Modal from './components/Modal'
+import Auth from './pages/Auth'
+import { useState } from 'react'
 
 function App() {
+  const [openPost, setOpenPost] = useState(false)
   return (
     <Layout>
       <section className="grid gap-8 md:grid-cols-2 md:items-center">
@@ -65,6 +71,24 @@ function App() {
           </p>
         </div>
       </section>
+
+      <div className="mt-8 flex items-center justify-between">
+        <h2 className="text-xl font-semibold">Explore</h2>
+        <div className="flex items-center gap-2">
+          <button onClick={() => setOpenPost(true)} className="rounded-md bg-rose-500 px-3 py-1 text-sm font-medium text-white hover:bg-rose-600">Post listing</button>
+        </div>
+      </div>
+
+      <Listings />
+
+      <Auth />
+
+      <Modal open={openPost} onClose={() => setOpenPost(false)}>
+        <h3 className="text-lg font-semibold">Create Listing</h3>
+        <div className="mt-4">
+          <PostForm onSubmit={(data) => { console.log('posted', data); setOpenPost(false) }} />
+        </div>
+      </Modal>
     </Layout>
   )
 }

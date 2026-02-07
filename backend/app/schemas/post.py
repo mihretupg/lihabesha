@@ -1,6 +1,7 @@
 from enum import Enum
 import uuid
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from pydantic import ConfigDict
 from datetime import date
 
 class PostType(str, Enum):
@@ -20,14 +21,14 @@ class HousingPost(PostBase):
 
 
 class HousingPostCreate(HousingPost):
-    owner_id: uuid.UUID
+    pass
 
 class JobPost(PostBase):
     category: str | None = None
 
 
 class JobPostCreate(JobPost):
-    owner_id: uuid.UUID
+    pass
 
 class TravelPost(PostBase):
     travel_date: date | None = None
@@ -35,7 +36,7 @@ class TravelPost(PostBase):
 
 
 class TravelPostCreate(TravelPost):
-    owner_id: uuid.UUID
+    pass
 
 
 class PostUpdate(BaseModel):
@@ -50,5 +51,12 @@ class PostUpdate(BaseModel):
     route: str | None = None
 
 class PostPublic(PostBase):
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+
     id: uuid.UUID
     post_type: PostType
+    availability_date: date | None = None
+    room_type: str | None = None
+    category: str | None = Field(default=None, alias="job_category")
+    travel_date: date | None = None
+    route: str | None = None

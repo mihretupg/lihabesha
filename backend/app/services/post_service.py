@@ -46,6 +46,8 @@ def create_post(db: Session, *, post_type: str, title: str, description: str,
 
 
 def update_post(db: Session, post: Post, **fields):
+    if "category" in fields:
+        fields["job_category"] = fields.pop("category")
     for key, value in fields.items():
         if value is not None:
             setattr(post, key, value)

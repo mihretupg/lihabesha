@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.post import TravelPostCreate, PostPublic, PostUpdate
 from app.services import post_service
+from app.core.security import get_current_user
 
 router = APIRouter(prefix="/travel", tags=["travel"])
 
@@ -24,13 +25,17 @@ def list_travel(
 
 
 @router.post("/", response_model=PostPublic)
-def create_travel(payload: TravelPostCreate, db: Session = Depends(get_db)):
+def create_travel(
+    payload: TravelPostCreate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     return post_service.create_post(
         db,
         post_type="travel",
         title=payload.title,
         description=payload.description,
-        owner_id=payload.owner_id,
+        owner_id=current_user.id,
         city=payload.city,
         price=payload.price,
         travel_date=payload.travel_date,
@@ -39,17 +44,30 @@ def create_travel(payload: TravelPostCreate, db: Session = Depends(get_db)):
 
 
 @router.patch("/{post_id}", response_model=PostPublic)
-def update_travel(post_id, payload: PostUpdate, db: Session = Depends(get_db)):
+def update_travel(
+    post_id,
+    payload: PostUpdate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     post = post_service.get_post(db, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
+    if post.owner_id != current_user.id and current_user.role not in {"admin", "moderator"}:
+        raise HTTPException(status_code=403, detail="Forbidden")
     return post_service.update_post(db, post, **payload.model_dump())
 
 
 @router.delete("/{post_id}")
-def delete_travel(post_id, db: Session = Depends(get_db)):
+def delete_travel(
+    post_id,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     post = post_service.get_post(db, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
+    if post.owner_id != current_user.id and current_user.role not in {"admin", "moderator"}:
+        raise HTTPException(status_code=403, detail="Forbidden")
     post_service.delete_post(db, post)
     return {"status": "deleted"}
